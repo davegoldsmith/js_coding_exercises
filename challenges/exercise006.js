@@ -6,6 +6,13 @@
  */
 export const sumMultiples = (arr) => {
   if (arr === undefined) throw new Error("arr is required");
+  let count = 0;
+  arr.forEach(element => {
+    if (element % 5 === 0 || element % 3 === 0) {
+      count += element;
+    }
+  })
+  return count;
 };
 
 /**
@@ -15,6 +22,14 @@ export const sumMultiples = (arr) => {
  */
 export const isValidDNA = (str) => {
   if (str === undefined) throw new Error("str is required");
+  const validChars = ["C", "G", "T", "A"];
+  for (let i=0; i < str.length; i++) {
+    let char = str.charAt(i);
+    if (!validChars.includes(char)) {
+      return false;
+    }
+  }
+  return true;
 };
 
 /**
@@ -24,6 +39,10 @@ export const isValidDNA = (str) => {
  */
 export const getComplementaryDNA = (str) => {
   if (str === undefined) throw new Error("str is required");
+  const dnaMap = {T:"A", C:"G", A:"T", G:"C"};
+  let comp = "";
+  str.split("").forEach(character => comp += dnaMap[character]);
+  return comp;
 };
 
 /**
@@ -33,6 +52,15 @@ export const getComplementaryDNA = (str) => {
  */
 export const isItPrime = (n) => {
   if (n === undefined) throw new Error("n is required");
+  if (n <= 1) return false;
+  if (n === 2) return true;
+
+  for (let i = 2; i < Math.sqrt(n); i++) {
+    if (n % i === 0) {
+      return false;
+    }
+  }
+  return true;
 };
 
 /**
@@ -49,6 +77,15 @@ export const isItPrime = (n) => {
 export const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required");
   if (fill === undefined) throw new Error("fill is required");
+  let fillArray = [];
+  let resultArray = [];
+  for (let i = 0; i < n; i++) {
+    fillArray.push(fill);
+  }
+  for (let i = 0; i < n; i++) {
+    resultArray.push(fillArray);
+  }
+  return resultArray;
 };
 
 /**
@@ -66,4 +103,11 @@ export const createMatrix = (n, fill) => {
 export const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required");
   if (day === undefined) throw new Error("day is required");
+  let dayCount = 0;
+  staff.forEach(person => {
+    if (person.rota.includes(day)) {
+      dayCount++;
+    }
+  });
+  return dayCount >= 3;
 };
