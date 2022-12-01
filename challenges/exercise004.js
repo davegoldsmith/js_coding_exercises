@@ -27,7 +27,7 @@ export function getCities(users) {
 export function getSquareRoots(nums) {
   if (!nums) throw new Error("nums is required");
   return nums.map(num => {
-    let result = Math.sqrt(num);
+    const result = Math.sqrt(num);
     return (Number.isInteger(result)) ? result : parseFloat(result.toFixed(2));
   });
 }
@@ -40,15 +40,5 @@ export function findSentencesContaining(sentences, str) {
 
 export function getLongestSides(triangles) {
   if (!triangles) throw new Error("triangles is required");
-  let resultArray = [];
-  triangles.forEach(triangleSides => {
-    let highSide = 0;
-    triangleSides.forEach(side => {
-      if (side > highSide) {
-        highSide = side;
-      }
-    });
-    resultArray.push(highSide);
-  });
-  return resultArray;
+  return triangles.map(triangleSides => Math.max(...triangleSides));
 }
