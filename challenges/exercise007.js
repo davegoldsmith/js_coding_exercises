@@ -131,7 +131,6 @@ export const findWinner = (board) => {
   
   // use for of loop so we can break when we find a winning row
   for (let row of winningRows) {
-    console.log("row = " + row);
     let rowValues = '';
     row.forEach(rowPosition => rowValues += map.get(rowPosition));
     if (rowValues === '000' || rowValues === "XXX") {
