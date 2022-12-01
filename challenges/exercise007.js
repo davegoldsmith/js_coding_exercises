@@ -4,6 +4,8 @@
  */
 export const sumDigits = (n) => {
   if (n === undefined) throw new Error("n is required");
+  const nArray = Array.from(String(n), Number);
+  return nArray.reduce((acummulator, num) => acummulator += num);
 };
 
 /**
@@ -17,10 +19,13 @@ export const sumDigits = (n) => {
 export const createRange = (start, end, step) => {
   if (start === undefined) throw new Error("start is required");
   if (end === undefined) throw new Error("end is required");
-  if (step === undefined)
-    console.log(
-      "FYI: Optional step parameter not provided. Remove this check once you've handled the optional step!"
-    );
+  if (step === undefined) step = 1;
+
+  const resultArray = [];
+  for (let i = start; i <= end; i += step) {
+    resultArray.push(i);
+  }
+  return resultArray;
 };
 
 /**
@@ -55,6 +60,21 @@ export const createRange = (start, end, step) => {
 export const getScreentimeAlertList = (users, date) => {
   if (users === undefined) throw new Error("users is required");
   if (date === undefined) throw new Error("date is required");
+  const resultArray = [];
+  users.forEach(user => {
+    user.screenTime.forEach(screenTime => {
+      if (screenTime.date === date) {
+        let timeCounter = 0;
+        for (let key in screenTime.usage) {
+          timeCounter += screenTime.usage[key];
+        }
+        if (timeCounter >= 100) {
+          resultArray.push(user.username);
+        }
+      }
+    });
+  });
+  return resultArray;
 };
 
 /**
@@ -69,6 +89,10 @@ export const getScreentimeAlertList = (users, date) => {
  */
 export const hexToRGB = (hexStr) => {
   if (hexStr === undefined) throw new Error("hexStr is required");
+  let red = hexStr.substring(1,3);
+  let green = hexStr.substring(3,5);
+  let blue = hexStr.substring(5,7);
+  return "rgb(" + parseInt(red, 16) + "," + parseInt(green, 16) + "," + parseInt(blue, 16) + ")";
 };
 
 /**
@@ -83,4 +107,41 @@ export const hexToRGB = (hexStr) => {
  */
 export const findWinner = (board) => {
   if (board === undefined) throw new Error("board is required");
+  let winner = null;
+  let position = 1;
+  // all winning row combos
+  const winningRows =[
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+  ];
+  // map the scores so that we can determine the winner
+  const map = new Map();
+  board.forEach(square => {
+    square.forEach(scorer => {
+      map.set(position, scorer);
+      position++;
+    });
+  });
+  
+  // use for of loop so we can break when we find a winning row
+  for (let row of winningRows) {
+    console.log("row = " + row);
+    let rowValues = '';
+    row.forEach(rowPosition => rowValues += map.get(rowPosition));
+    if (rowValues === '000' || rowValues === "XXX") {
+      if(rowValues === "XXX") {
+        winner = "X";
+      } else {
+        winner = "0";
+      }
+      break;
+    }
+  }
+  return winner;
 };
